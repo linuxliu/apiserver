@@ -156,3 +156,19 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow())
     layer = db.Column(db.Integer, default=0)
     valid = db.Column(db.Boolean, default=False)
+
+
+class OperatorType:
+    ADD = 1  # 充值
+    REDUCE = 2  # 提现
+    SELL = 4  # 卖出所得
+    BUY = 8  # 买入花费
+
+
+class Balance(db.Model):
+    __tablename__ = 'balances'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    operator = db.Column(db.Integer, default=OperatorType.ADD)
+    account = db.Column(db.Integer, default=0)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
